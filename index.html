@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusGuardian AI - Security Operations Center</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>🛡️ CampusGuardian AI</h1>
+                <h2>Security Operations Center</h2>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+                </div>
+                <div class="form-group">
+                    <label for="role" class="form-label">Role</label>
+                    <select id="role" class="form-control">
+                        <option value="admin" selected>Security Administrator</option>
+                        <option value="analyst">Security Analyst</option>
+                        <option value="coordinator">Emergency Coordinator</option>
+                        <option value="officer">Campus Safety Officer</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Access SOC</button>
+            </form>
+            <div class="login-info">
+                <p>Demo credentials: admin/admin</p>
+                <div class="system-status">
+                    <span class="status status--success">System Operational</span>
+                    <span class="uptime">Uptime: 99.9%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="app-container hidden" id="mainApp">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1 class="header-title">🛡️ CampusGuardian AI</h1>
+                <div class="system-health">
+                    <span class="status status--success" id="systemStatus">OPERATIONAL</span>
+                    <span class="uptime" id="systemUptime">99.9%</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="current-time" id="currentTime">--:--:--</div>
+                <div class="current-date" id="currentDate">Loading...</div>
+            </div>
+            <div class="header-right">
+                <div class="alert-summary">
+                    <span class="alert-count critical" id="criticalAlerts">0</span>
+                    <span class="alert-count high" id="highAlerts">2</span>
+                    <span class="alert-count medium" id="mediumAlerts">5</span>
+                </div>
+                <div class="user-info">
+                    <span class="user-name" id="userName">User</span>
+                    <span class="user-role" id="userRole">Role</span>
+                    <button class="btn btn--sm" id="logoutBtn">Sign Out</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a></li>
+                <li><a href="#security" class="nav-item" data-section="security">
+                    <span class="nav-icon">📹</span>
+                    <span class="nav-label">Security Center</span>
+                    <span class="nav-badge">56</span>
+                </a></li>
+                <li><a href="#incidents" class="nav-item" data-section="incidents">
+                    <span class="nav-icon">🚨</span>
+                    <span class="nav-label">Incidents</span>
+                    <span class="nav-badge critical">12</span>
+                </a></li>
+                <li><a href="#analytics" class="nav-item" data-section="analytics">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Analytics</span>
+                </a></li>
+                <li><a href="#settings" class="nav-item" data-section="settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Settings</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section class="content-section active" id="dashboard-section">
+                <div class="section-header">
+                    <h2>Live Dashboard</h2>
+                    <div class="section-actions">
+                        <button class="btn btn--outline" id="refreshDashboard">🔄 Refresh</button>
+                        <div class="weather-widget">
+                            <span id="weatherTemp">72°F</span>
+                            <span id="weatherIcon">☀️</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Live Statistics Cards -->
+                    <div class="dashboard-card metrics-card">
+                        <h3>📈 Live Statistics</h3>
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" id="peopleDetected">1,247</div>
+                                <div class="metric-label">People Detected Today</div>
+                                <div class="metric-trend positive">↗ +12%</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="activeCameras">56/56</div>
+                                <div class="metric-label">Active Cameras</div>
+                                <div class="metric-trend positive">✓ All Online</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="incidentsPrevented">12</div>
+                                <div class="metric-label">Incidents Prevented</div>
+                                <div class="metric-trend positive">↗ +3</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="responseTime">2.3 min</div>
+                                <div class="metric-label">Avg Response Time</div>
+                                <div class="metric-trend negative">↘ -0.4 min</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campus Map -->
+                    <div class="dashboard-card campus-map-card">
+                        <h3>🗺️ Interactive Campus Map</h3>
+                        <div class="campus-map">
+                            <div class="zone-marker" style="top: 20%; left: 25%;" data-zone="library">
+                                <div class="zone-icon">📚</div>
+                                <div class="zone-name">Main Library</div>
+                                <div class="threat-indicator low"></div>
+                                <div class="zone-stats">8 cameras, 245 people</div>
+                            </div>
+                            <div class="zone-marker" style="top: 35%; left: 60%;" data-zone="union">
+                                <div class="zone-icon">🏢</div>
+                                <div class="zone-name">Student Union</div>
+                                <div class="threat-indicator medium"></div>
+                                <div class="zone-stats">6 cameras, 412 people</div>
+                            </div>
+                            <div class="zone-marker" style="top: 55%; left: 40%;" data-zone="engineering">
+                                <div class="zone-icon">🔬</div>
+                                <div class="zone-name">Engineering Hall</div>
+                                <div class="threat-indicator low"></div>
+                                <div class="zone-stats">5 cameras, 178 people</div>
+                            </div>
+                            <div class="zone-marker" style="top: 70%; left: 15%;" data-zone="parking">
+                                <div class="zone-icon">🚗</div>
+                                <div class="zone-name">Parking North</div>
+                                <div class="threat-indicator low"></div>
+                                <div class="zone-stats">4 cameras, 89 vehicles</div>
+                            </div>
+                            <div class="zone-marker" style="top: 25%; left: 75%;" data-zone="athletics">
+                                <div class="zone-icon">🏃</div>
+                                <div class="zone-name">Athletics Center</div>
+                                <div class="threat-indicator low"></div>
+                                <div class="zone-stats">6 cameras, 89 people</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Real-time Alerts -->
+                    <div class="dashboard-card alerts-card">
+                        <h3>🚨 Active Alerts</h3>
+                        <div class="alerts-list" id="alertsList">
+                            <div class="alert-item high">
+                                <div class="alert-icon">⚠️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Unauthorized Access</div>
+                                    <div class="alert-location">Perimeter Gate B</div>
+                                    <div class="alert-time">2 minutes ago</div>
+                                </div>
+                                <div class="alert-actions">
+                                    <button class="btn btn--sm btn--outline">View</button>
+                                    <button class="btn btn--sm btn--primary">Respond</button>
+                                </div>
+                            </div>
+                            <div class="alert-item medium">
+                                <div class="alert-icon">👁️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Motion After Hours</div>
+                                    <div class="alert-location">Library Back Entrance</div>
+                                    <div class="alert-time">8 minutes ago</div>
+                                </div>
+                                <div class="alert-actions">
+                                    <button class="btn btn--sm btn--outline">View</button>
+                                    <button class="btn btn--sm btn--primary">Respond</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Feed -->
+                    <div class="dashboard-card activity-card">
+                        <h3>⚡ Real-time Activity Feed</h3>
+                        <div class="activity-feed" id="activityFeed">
+                            <div class="activity-item">
+                                <div class="activity-time">18:02</div>
+                                <div class="activity-content">
+                                    <div class="activity-type">AI Detection</div>
+                                    <div class="activity-desc">3 people detected at Student Union entrance</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-time">18:01</div>
+                                <div class="activity-content">
+                                    <div class="activity-type">Camera Status</div>
+                                    <div class="activity-desc">CAM-012 recording started automatically</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-time">18:00</div>
+                                <div class="activity-content">
+                                    <div class="activity-type">System Health</div>
+                                    <div class="activity-desc">All systems operating normally</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="dashboard-card quick-actions-card">
+                        <h3>⚡ Emergency Protocols</h3>
+                        <div class="quick-actions-grid">
+                            <div class="quick-action emergency" data-action="lockdown">
+                                <div class="action-icon">🔒</div>
+                                <div class="action-label">Campus Lockdown</div>
+                            </div>
+                            <div class="quick-action emergency" data-action="alert">
+                                <div class="action-icon">📢</div>
+                                <div class="action-label">Mass Alert</div>
+                            </div>
+                            <div class="quick-action" data-action="patrol">
+                                <div class="action-icon">🚁</div>
+                                <div class="action-label">Deploy Patrol</div>
+                            </div>
+                            <div class="quick-action emergency" data-action="call">
+                                <div class="action-icon">📞</div>
+                                <div class="action-label">Emergency Call</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Center Section -->
+            <section class="content-section" id="security-section">
+                <div class="section-header">
+                    <h2>Security Center - Live Camera Feeds</h2>
+                    <div class="section-actions">
+                        <select class="form-control" id="locationFilter">
+                            <option value="all">All Locations</option>
+                            <option value="academic">Academic Buildings</option>
+                            <option value="residential">Residential</option>
+                            <option value="parking">Parking Areas</option>
+                            <option value="perimeter">Perimeter</option>
+                        </select>
+                        <select class="form-control" id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="online">Online</option>
+                            <option value="offline">Offline</option>
+                            <option value="maintenance">Maintenance</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="camera-grid" id="cameraGrid">
+                    <!-- Camera feeds will be dynamically generated -->
+                </div>
+            </section>
+
+            <!-- Incidents Section -->
+            <section class="content-section" id="incidents-section">
+                <div class="section-header">
+                    <h2>Incident Management</h2>
+                    <div class="section-actions">
+                        <select class="form-control" id="priorityFilter">
+                            <option value="all">All Priorities</option>
+                            <option value="critical">Critical</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                        <button class="btn btn--primary" id="newIncident">+ New Incident</button>
+                    </div>
+                </div>
+
+                <div class="incidents-table">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Response</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incidentsTableBody">
+                            <!-- Incidents will be dynamically loaded -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section class="content-section" id="analytics-section">
+                <div class="section-header">
+                    <h2>Analytics & Reports</h2>
+                    <div class="section-actions">
+                        <button class="btn btn--outline" id="exportData">📊 Export Data</button>
+                        <button class="btn btn--primary" id="generateReport">📄 Generate Report</button>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <!-- Risk Assessment Heat Map -->
+                    <div class="analytics-card">
+                        <h3>🗺️ Risk Assessment Heat Map</h3>
+                        <div class="heatmap-container">
+                            <div class="heatmap-zone high" style="top: 10%; left: 20%; width: 25%; height: 20%;">
+                                High Risk<br>Student Union
+                            </div>
+                            <div class="heatmap-zone medium" style="top: 40%; left: 60%; width: 30%; height: 25%;">
+                                Medium Risk<br>Library Area
+                            </div>
+                            <div class="heatmap-zone low" style="top: 70%; left: 10%; width: 40%; height: 20%;">
+                                Low Risk<br>Athletic Center
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 24-Hour Prediction Graph -->
+                    <div class="analytics-card">
+                        <h3>📈 24-Hour Incident Prediction</h3>
+                        <div class="chart-container">
+                            <canvas id="predictionChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Key Performance Indicators -->
+                    <div class="analytics-card">
+                        <h3>📊 Key Performance Indicators</h3>
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-label">Detection Accuracy</div>
+                                <div class="kpi-value">94.7%</div>
+                                <div class="kpi-trend positive">↗ +2.1%</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-label">False Alarm Rate</div>
+                                <div class="kpi-value">3.2%</div>
+                                <div class="kpi-trend positive">↘ -0.8%</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-label">System Uptime</div>
+                                <div class="kpi-value">99.9%</div>
+                                <div class="kpi-trend neutral">→ 0%</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-label">Response Time</div>
+                                <div class="kpi-value">2.3 min</div>
+                                <div class="kpi-trend positive">↘ -0.4 min</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pattern Recognition -->
+                    <div class="analytics-card">
+                        <h3>🔍 Behavioral Pattern Analysis</h3>
+                        <div class="pattern-analysis">
+                            <div class="pattern-item">
+                                <div class="pattern-visual normal"></div>
+                                <div class="pattern-details">
+                                    <div class="pattern-name">Normal Flow Patterns</div>
+                                    <div class="pattern-confidence">Confidence: 96%</div>
+                                </div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-visual anomaly"></div>
+                                <div class="pattern-details">
+                                    <div class="pattern-name">Anomalous Behavior Detected</div>
+                                    <div class="pattern-confidence">Confidence: 84%</div>
+                                </div>
+                            </div>
+                            <div class="pattern-item">
+                                <div class="pattern-visual crowd"></div>
+                                <div class="pattern-details">
+                                    <div class="pattern-name">Crowd Formation Patterns</div>
+                                    <div class="pattern-confidence">Confidence: 91%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="content-section" id="settings-section">
+                <div class="section-header">
+                    <h2>System Configuration</h2>
+                    <div class="section-actions">
+                        <button class="btn btn--outline" id="resetSettings">🔄 Reset</button>
+                        <button class="btn btn--primary" id="saveSettings">💾 Save Settings</button>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <!-- System Configuration -->
+                    <div class="settings-card">
+                        <h3>⚙️ System Configuration</h3>
+                        <div class="settings-group">
+                            <label class="form-label">Detection Sensitivity</label>
+                            <input type="range" class="form-range" id="detectionSensitivity" min="1" max="10" value="7">
+                            <span class="range-value">7/10</span>
+                        </div>
+                        <div class="settings-group">
+                            <label class="form-label">Alert Threshold</label>
+                            <input type="range" class="form-range" id="alertThreshold" min="1" max="10" value="5">
+                            <span class="range-value">5/10</span>
+                        </div>
+                        <div class="settings-group">
+                            <label class="form-label">Recording Quality</label>
+                            <select class="form-control">
+                                <option value="720p">720p HD</option>
+                                <option value="1080p" selected>1080p Full HD</option>
+                                <option value="4k">4K Ultra HD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- User Access Management -->
+                    <div class="settings-card">
+                        <h3>👥 User Access Management</h3>
+                        <div class="user-list">
+                            <div class="user-item">
+                                <div class="user-info">
+                                    <div class="user-name">Sarah Johnson</div>
+                                    <div class="user-role">Security Chief</div>
+                                </div>
+                                <span class="user-status active">Active</span>
+                                <button class="btn btn--sm btn--outline">Edit</button>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-info">
+                                    <div class="user-name">Officer Martinez</div>
+                                    <div class="user-role">Campus Safety</div>
+                                </div>
+                                <span class="user-status active">Active</span>
+                                <button class="btn btn--sm btn--outline">Edit</button>
+                            </div>
+                        </div>
+                        <button class="btn btn--primary btn--full-width">+ Add User</button>
+                    </div>
+
+                    <!-- Alert Notifications -->
+                    <div class="settings-card">
+                        <h3>🔔 Alert Notification Settings</h3>
+                        <div class="settings-group">
+                            <label class="form-label">
+                                <input type="checkbox" checked> Email Notifications
+                            </label>
+                        </div>
+                        <div class="settings-group">
+                            <label class="form-label">
+                                <input type="checkbox" checked> SMS Alerts
+                            </label>
+                        </div>
+                        <div class="settings-group">
+                            <label class="form-label">
+                                <input type="checkbox"> Push Notifications
+                            </label>
+                        </div>
+                        <div class="settings-group">
+                            <label class="form-label">Notification Email</label>
+                            <input type="email" class="form-control" value="admin@campus.edu" placeholder="Email address">
+                        </div>
+                    </div>
+
+                    <!-- System Performance -->
+                    <div class="settings-card">
+                        <h3>📊 System Performance</h3>
+                        <div class="performance-metrics">
+                            <div class="perf-metric">
+                                <span class="perf-label">CPU Usage</span>
+                                <div class="perf-bar">
+                                    <div class="perf-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="perf-value">45%</span>
+                            </div>
+                            <div class="perf-metric">
+                                <span class="perf-label">Memory</span>
+                                <div class="perf-bar">
+                                    <div class="perf-fill" style="width: 62%"></div>
+                                </div>
+                                <span class="perf-value">62%</span>
+                            </div>
+                            <div class="perf-metric">
+                                <span class="perf-label">Storage</span>
+                                <div class="perf-bar">
+                                    <div class="perf-fill" style="width: 78%"></div>
+                                </div>
+                                <span class="perf-value">78%</span>
+                            </div>
+                            <div class="perf-metric">
+                                <span class="perf-label">Network</span>
+                                <div class="perf-bar">
+                                    <div class="perf-fill" style="width: 35%"></div>
+                                </div>
+                                <span class="perf-value">35%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Incident Details Modal -->
+    <div class="modal-overlay hidden" id="incidentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Incident Details</h3>
+                <button class="modal-close" id="closeIncidentModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="incident-details">
+                    <div class="detail-group">
+                        <label>Incident ID:</label>
+                        <span id="modalIncidentId">INC-2024-0158</span>
+                    </div>
+                    <div class="detail-group">
+                        <label>Type:</label>
+                        <span id="modalIncidentType">Security Breach</span>
+                    </div>
+                    <div class="detail-group">
+                        <label>Location:</label>
+                        <span id="modalIncidentLocation">Perimeter Gate B</span>
+                    </div>
+                    <div class="detail-group">
+                        <label>Priority:</label>
+                        <span class="priority critical" id="modalIncidentPriority">Critical</span>
+                    </div>
+                    <div class="detail-group">
+                        <label>Status:</label>
+                        <span id="modalIncidentStatus">Active</span>
+                    </div>
+                    <div class="detail-group">
+                        <label>Description:</label>
+                        <p id="modalIncidentDescription">Unauthorized access attempt detected at perimeter gate. Individual attempting to bypass security checkpoint.</p>
+                    </div>
+                    <div class="detail-group">
+                        <label>Timeline:</label>
+                        <div class="incident-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30</div>
+                                <div class="timeline-event">Alert triggered by motion sensors</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:31</div>
+                                <div class="timeline-event">Camera verification confirmed threat</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:32</div>
+                                <div class="timeline-event">Security team dispatched</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="closeIncidentModal">Close</button>
+                <button class="btn btn--primary">Update Status</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
